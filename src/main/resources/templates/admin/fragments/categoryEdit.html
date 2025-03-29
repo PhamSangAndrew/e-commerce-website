@@ -1,0 +1,47 @@
+<div th:fragment="categoryEdit">
+	<div class="product-status mg-b-30">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+					<div class="product-status-wrap">
+						<form
+							th:action="@{/admin/categories/edit-category/{id}(id=${cate.CategoryID})}"
+							th:object="${cate}" method="post">
+							<h4>Category ID</h4>
+							<div class="input-group mg-b-15 mg-t-15">
+								<span class="input-group-addon"><i
+									class="icon nalika-user" aria-hidden="true"></i></span> <input
+									type="text" class="form-control" th:field="${id}" readonly >
+							</div>
+							<h4>Category Name</h4>
+							<div class="input-group mg-b-15 mg-t-15">
+								<span class="input-group-addon"><i
+									class="icon nalika-user" aria-hidden="true"></i></span> <input
+									type="text" class="form-control"
+									th:field="${cate.CategoryName}">
+							</div>
+							<h4>Status</h4>
+							<div class="form-radio" style="display: flex; gap: 20px;">
+								<div class="radio radiofill">
+									<label> <input type="radio" name="CateStatus" value="1">
+										<i class="helper"></i>Active
+									</label>
+								</div>
+								<div class="radio radiofill">
+									<label> <input type="radio" name="CateStatus" value="0">
+										<i class="helper"></i>Hidden
+									</label>
+								</div>
+							</div>
+							<div class="form-group review-pro-edt mg-b-0-pt">
+								<button type="submit"
+									class="btn btn-ctl-bt waves-effect waves-light">Update</button>
+							</div>
+						</form>
+
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</div>

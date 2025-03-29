@@ -1,0 +1,128 @@
+<div th:fragment="productE">
+	<div class="single-product-tab-area mg-b-30">
+		<!-- Single pro tab review Start-->
+		<div class="single-pro-review-area">
+			<div class="container-fluid">
+				<div class="row">
+					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+						<div class="review-tab-pro-inner">
+							<ul id="myTab3" class="tab-review-design">
+								<li class="active"><a href="#description"><i
+										class="icon nalika-edit" aria-hidden="true"></i>Edit Product </a></li>
+							</ul>
+							<div id="myTabContent" class="tab-content custom-product-edit">
+								<form
+									th:action="@{/admin/productedit/{id}(id=${fruits.FruitId})}"
+									method="post" th:object="${fruits}"
+									enctype="multipart/form-data">
+									<input type="hidden" name="oldImage" th:value="${fruits.Image}" />
+									<div class="product-tab-list tab-pane fade active in"
+										id="description">
+										<div class="row">
+											<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+												<div class="review-content-section ">
+													<div class="input-group mg-b-pro-edt">
+														<span class="input-group-addon"><i
+															class="icon nalika-user" aria-hidden="true"></i></span> <input
+															type="text" class="form-control" placeholder=" ID"
+															th:field="${id}" readonly required>
+													</div>
+													<div class="input-group mg-b-pro-edt">
+														<span class="input-group-addon"><i
+															class="icon nalika-user" aria-hidden="true"></i></span> <input
+															type="text" class="form-control" placeholder="Name Fruit"
+															th:field="*{FruitName}" required>
+													</div>
+													<div class="input-group mg-b-pro-edt">
+														<span class="input-group-addon"><i
+															class="icon nalika-edit" aria-hidden="true"></i></span> <input
+															type="text" class="form-control"
+															placeholder="Description" th:field="*{Description}"
+															required>
+													</div>
+													<div class="input-group mg-b-pro-edt">
+														<span class="input-group-addon"><i
+															class="fa fa-usd" aria-hidden="true"></i></span> <input
+															type="number" class="form-control" placeholder=" Price"
+															th:field="*{Price}" required>
+													</div>
+
+													<div class="input-group mg-b-pro-edt">
+														<span class="input-group-addon"><i
+															class="icon nalika-favorites" aria-hidden="true"></i></span> <input
+															type="number" class="form-control" placeholder="Quantity"
+															th:field="*{Quantity}" required>
+													</div>
+												</div>
+											</div>
+											<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+												<div class="review-content-section">
+													<div class="input-group mg-b-pro-edt">
+														<span class="input-group-addon"><i
+															class="icon nalika-user" aria-hidden="true"></i></span> <input
+															type="text" class="form-control" placeholder="DATE ADD"
+															th:field="*{Dateadded}" required>
+													</div>
+													<div class="input-group mg-b-pro-edt">
+														<span class="input-group-addon"><i
+															class="fa fa-usd" aria-hidden="true"></i></span> <input
+															type="number" class="form-control"
+															placeholder="Sale Price" th:field="*{SalePrice}">
+													</div>
+													<div class="input-group mg-b-pro-edt">
+														<div class="form-radio d-flex align-items-center"
+															style="display: flex; gap: 20px;">
+															<div class="radio radiofill form-check form-check-inline">
+																<label> <input type="radio" name="FruitStatus"
+																	th:field="*{FruitStatus}" value="1"> <i
+																	class="helper"></i>Active
+																</label>
+															</div>
+															<div class="radio radiofill form-check form-check-inline">
+																<label> <input type="radio" name="FruitStatus"
+																	th:field="*{FruitStatus}" value="0"> <i
+																	class="helper"></i>Hidden
+																</label>
+															</div>
+														</div>
+													</div>
+													<div class="input-group mg-b-pro-edt">
+														<span class="input-group-addon"><i
+															class="icon nalika-like"></i></span> <select
+															th:field="*{category.CategoryID}" class="form-control" required>
+															<option th:each="cate : ${cate}"
+																th:value="${cate.CategoryID}"
+																th:text="${cate.CategoryName}"></option>
+														</select>
+													</div>
+													<div class="input-group mg-b-pro-edt">
+														<span class="input-group-addon"><i
+															class="icon nalika-like" aria-hidden="true"></i></span> <input
+															type="file" class="form-control" name="file">
+													</div>
+
+												</div>
+											</div>
+										</div>
+										<div class="row">
+											<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+												<div class="text-center custom-pro-edt-ds">
+													<button type="submit"
+														class="btn btn-ctl-bt waves-effect waves-light m-r-10">Save</button>
+													<button type="reset"
+														class="btn btn-ctl-bt waves-effect waves-light">Discard</button>
+												</div>
+											</div>
+										</div>
+									</div>
+								</form>
+
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+</div>

@@ -1,0 +1,56 @@
+<div th:fragment="categories">
+	<div class="product-status mg-b-30">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+					<div class="product-status-wrap">
+						<h4>Category</h4>
+						<div class="add-product">
+							<a href="categories/add-category">Add Category</a>
+						</div>
+						<table>
+							<tr>
+								<th>ID</th>
+								<th>Name</th>
+								<th>Status</th>
+								<th>Setting</th>
+							</tr>
+
+							<tr th:each="cate : ${cate}">
+								<td th:text="${cate.CategoryID}"></td>
+								<td th:text="${cate.CategoryName}"></td>
+								<td th:if="${cate.CateStatus}"><span
+									class="label label-success">active</span></td>
+								<td th:if="${!cate.CateStatus}"><span
+									class="label label-danger">hiden</span></td>
+								<td><a
+									th:href="@{/admin/categories/edit-category/{id}(id=${cate.CategoryID})}"
+									data-toggle="tooltip" title="Edit" class="pd-setting-ed">
+										<button type="button" class="pd-setting-ed">
+											<i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+										</button>
+								</a> <a
+									th:href="@{/admin/categories/delete-category/{id}(id=${cate.CategoryID})}"
+									data-toggle="tooltip" title="Delete"
+									onclick="return confirm('Bạn có muốn xoá không ?')"
+									class="pd-setting-ed"> <i class="fa fa-trash-o"
+										aria-hidden="true"></i>
+								</a></td>
+							</tr>
+						</table>
+						<div class="custom-pagination">
+							<ul class="pagination">
+								<li class="page-item"><a class="page-link" href="#">Previous</a></li>
+								<li class="page-item"><a class="page-link" href="#">1</a></li>
+								<li class="page-item"><a class="page-link" href="#">2</a></li>
+								<li class="page-item"><a class="page-link" href="#">3</a></li>
+								<li class="page-item"><a class="page-link" href="#">Next</a></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+	</div>

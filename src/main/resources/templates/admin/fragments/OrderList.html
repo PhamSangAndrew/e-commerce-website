@@ -1,0 +1,174 @@
+<div th:fragment="orderlist">
+	<div class="product-status mg-b-30">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+					<div class="product-status-wrap">
+						<div class="col-lg-2 col-md-7 col-sm-6 col-xs-12">
+							<div class="header-top-menu tabl-d-n hd-search-rp">
+								<div class="breadcome-heading">
+									<form th:action="@{/admin/Order}">
+										<input type="number" name="oderId" id="oderId"
+											placeholder="Enter the order code" class="form-control">
+										<a href=""><i class="fa fa-search"></i></a>
+									</form>
+								</div>
+							</div>
+							<div th:if="${error != null}" class="alert alert-danger">
+								<p th:text="${error}"></p>
+							</div>
+						</div>
+						<form th:action="@{/admin/Order}" method="get">
+							<div class="col-md-4">
+								<select name="status" id="status" class="form-control">
+									<option value="" th:selected="${param.status == null}">All
+										Status</option>
+									<option value="PENDING"
+										th:selected="${param.status == 'PENDING'}">Pending</option>
+									<option value="PAID" th:selected="${param.status == 'PAID'}">Paid</option>
+									<option value="SHIPPED"
+										th:selected="${param.status == 'SHIPPED'}">Shipped</option>
+									<option value="CANCELLED"
+										th:selected="${param.status == 'CANCELLED'}">Cancelled</option>
+								</select>
+							</div>
+							<div class="col-md-4">
+								<button type="submit" class="btn btn-primary">Filter</button>
+							</div>
+						</form>
+						<table>
+							<tr>
+								<th>Customer name</th>
+								<th>Order ID</th>
+								<th>Order date</th>
+								<th>Total Amount</th>
+								<th>Address</th>
+								<th>Phone</th>
+								<th>Payment method</th>
+								<th>Order Status</th>
+							</tr>
+							<tr th:each="order : ${listoder}">
+								<td th:text="${order.Customername}"></td>
+								<td th:text="${order.OrderID}"></td>
+								<td th:text="${order.Orderdate}"></td>
+								<td th:text="${order.TotalAmount}"></td>
+								<td th:text="${order.Address}"></td>
+								<td th:text="${order.Phone}"></td>>
+								<td th:text="${order.Paymentmethod}"></td>
+								<td th:text="${order.OrderStatus}"></td>
+								<td><button class="btn btn-primary"
+										th:onclick="'showOrderDetails(' + ${order.OrderID} + ')'">Xem
+										chi tiết</button></td>
+								<td>
+									<form th:action="@{/admin/Order/updateStatus}" method="post">
+										<input type="hidden" name="orderId"
+											th:value="${order.OrderID}" /> <label>order status</label> <select
+											name="status" class="input-group-addon" Placeholder="Status">
+											<option value="PENDING"
+												th:selected="${order.orderStatus == 'PENDING'}">Pending</option>
+											<option value="PAID"
+												th:selected="${order.orderStatus == 'PAID'}">Paid</option>
+											<option value="SHIPPED"
+												th:selected="${order.orderStatus == 'SHIPPED'}">Shipped</option>
+											<option value="CANCELLED"
+												th:selected="${order.orderStatus == 'CANCELLED'}">Cancelled</option>
+										</select>
+										<button type="submit"
+											class="btn btn-ctl-bt waves-effect waves-light m-r-6">UPDATE</button>
+									</form>
+								</td>
+
+							</tr>
+						</table>
+						<div class="custom-pagination">
+							<ul class="pagination">
+								<li th:if="${currentPage > 1}" class="page-item"><a
+									class="page-link"
+									th:href="@{/admin/Order(pageNo=${currentPage - 1})}">Previous</a>
+								</li>
+
+								<li th:each="i : ${#numbers.sequence(1, totalPage)}"
+									th:classappend="${currentPage == i ? 'active' : ''}"
+									class="page-item"><a class="page-link"
+									th:href="@{/admin/Order(pageNo=${i})}" th:text="${i}"></a></li>
+								</li>
+
+								<li th:if="${currentPage < totalPage}" class="page-item"><a
+									class="page-link"
+									th:href="@{/admin/Order(pageNo=${currentPage + 1})}">Next</a></li>
+							</ul>
+						</div>
+					</div>
+					<!-- Tab ảo để hiển thị sản phẩm trong đơn hàng -->
+					<div id="orderDetailsTab" class="mt-5 d-none">
+						<h4>
+							Chi tiết đơn hàng: <span id="selectedOrderId"></span>
+						</h4>
+						<table class="table table-bordered">
+							<thead>
+								<tr>
+									<th>Tên sản phẩm</th>
+									<th>Số lượng</th>
+									<th>Giá</th>
+									<th>Tổng tiền</th>
+								</tr>
+							</thead>
+							<tbody id="orderDetailsBody">
+								<!-- Dữ liệu sẽ được điền bằng JavaScript -->
+							</tbody>
+						</table>
+						<button class="btn btn-secondary" onclick="hideOrderDetails()">Đóng</button>
+					</div>
+				</div>
+
+				<script>
+
+        // Hiển thị chi tiết đơn hàng
+       function showOrderDetails(oderId) {
+       const orderDetailsTab = document.getElementById("orderDetailsTab");
+       const orderDetailsBody = document.getElementById("orderDetailsBody");
+       const selectedOrderId = document.getElementById("selectedOrderId");
+
+    // Hiển thị ID của đơn hàng
+    selectedOrderId.textContent = oderId;
+
+    // Gọi API để lấy chi tiết đơn hàng
+    fetch(`/${oderId}/details`)
+        .then(response => response.json())
+        .then(orderDetails => {
+            // Kiểm tra xem dữ liệu trả về có phải là mảng không
+            if (Array.isArray(orderDetails)) {
+                orderDetailsBody.innerHTML = ""; // Reset bảng trước khi thêm dữ liệu
+                orderDetails.forEach(item => {
+                    const row = `
+                        <tr>  	  
+                            <td>${item.productName}</td>
+                            <td>${item.quantity}</td>
+                            <td>${item.price} VND</td>
+                            <td>${(item.quantity * item.price).toLocaleString()} VND</td>
+                        </tr>
+                    `;
+                    orderDetailsBody.innerHTML += row;
+                });
+                orderDetailsTab.classList.remove("d-none"); // Hiển thị tab chi tiết đơn hàng
+            } else {
+                console.error("API trả về dữ liệu không phải mảng", orderDetails);
+                alert("Lỗi: Dữ liệu chi tiết đơn hàng không hợp lệ.");
+            }
+        })
+        .catch(error => {
+            console.error("Error fetching order details:", error);
+            alert("Lỗi: Không thể tải chi tiết đơn hàng.");
+        });
+}
+
+function hideOrderDetails() {
+    const orderDetailsTab = document.getElementById("orderDetailsTab");
+    orderDetailsTab.classList.add("d-none"); // Ẩn tab chi tiết khi đóng
+}
+    </script>
+			</div>
+		</div>
+	</div>
+
+</div>

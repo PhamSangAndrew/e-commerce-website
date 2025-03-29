@@ -1,0 +1,76 @@
+<div th:fragment="banner">
+	<div class="product-status mg-b-30">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+					<div class="product-status-wrap">
+						<h4>Products List</h4>
+						<div class="add-product">
+							<a href="/admin/addBanner">Add Banner</a>
+						</div>
+						<table>
+							<tr>
+								<th>Id</th>
+								<th>Title</th>
+								<th>ImageUrl</th>
+								<th>Link</th>
+								<th>Status</th>
+								<th>CreatedAt</th>
+								<th>UpdatedAt</th>
+							</tr>
+							<tr th:each="listBanner : ${listBanner}">
+								
+								<td th:text="${listBanner.Id}"></td>
+								<td th:text="${listBanner.Title}"></td>
+								<td th:text="${listBanner.ImageUrl}"></td>
+								<td th:text="${listBanner.Link}"></td>
+								<td th:if="${listBanner.Status}"><span
+									class="label label-success">active</span></td>
+								<td th:if="${!listBanner.Status}"><span
+									class="label label-danger">hiden</span></td>
+								<td th:text="${listBanner.CreatedAt}"></td>
+								<td th:text="${listBanner.UpdatedAt}"></td>
+
+								<td><a
+									th:href="@{/admin/banneredit/{id}(id=${listBanner.Id})}">
+										<button data-toggle="tooltip" title="Edit"
+											class="pd-setting-ed">
+											<i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+										</button>
+								</a> <a
+									th:href="@{/admin/banner-delete/{id}(id=${listBanner.Id})}">
+										<button data-toggle="tooltip" title="Trash"
+											class="pd-setting-ed">
+											<i class="fa fa-trash-o" aria-hidden="true"></i>
+										</button>
+								</a></td>
+							</tr>
+						</table>
+						<div class="custom-pagination">
+							<ul class="pagination">
+								<li th:if="${currentPage > 1}" class="page-item"><a
+									class="page-link"
+									th:href="@{/admin/Banner(pageNo=${currentPage - 1})}">Previous</a>
+								</li>
+
+								<li th:each="i : ${#numbers.sequence(1, totalPage)}"
+									th:classappend="${currentPage == i ? 'active' : ''}"
+									class="page-item"><a class="page-link"
+									th:href="@{/admin/Banner(pageNo=${i})}" th:text="${i}"></a>
+
+								</li>
+								</li>
+
+								<li th:if="${currentPage < totalPage}" class="page-item"><a
+									class="page-link"
+									th:href="@{/admin/Banner(pageNo=${currentPage + 1})}">Next</a>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+	</div>

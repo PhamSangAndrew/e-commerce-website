@@ -1,0 +1,147 @@
+<div th:fragment="OrderListReview">
+	<!-- Single Page Header start -->
+	<div class="container-fluid page-header py-5">
+		<h1 class="text-center text-white display-6">Cart</h1>
+		<ol class="breadcrumb justify-content-center mb-0">
+			<li class="breadcrumb-item"><a href="#">Home</a></li>
+			<li class="breadcrumb-item"><a href="#">Pages</a></li>
+			<li class="breadcrumb-item active text-white">Cart</li>
+		</ol>
+	</div>
+	<!-- Single Page Header End -->
+
+
+	<!-- Cart Page Start -->
+	<div class="container-fluid py-5">
+		<div class="container py-5">
+			<div class="table-responsive">
+				<table class="table">
+					<thead>
+						<tr>
+							<th scope="col">Code</th>
+							<th scope="col">Date Add</th>
+							<th scope="col">Quantity</th>
+							<th scope="col">Price</th>
+							<th scope="col"></th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="order :${orders}">
+
+							<td>
+								<p class="mb-0 mt-4" th:text="${order.oderId}"></p>
+							</td>
+							<td>
+								<p class="mb-0 mt-4" th:text="${order.oderDate}"></p>
+							</td>
+							<td>
+								<p class="mb-0 mt-4" th:text="${order.totalQuantity}"></p>
+							</td>
+							<td>
+								<p class="mb-0 mt-4" th:text="${order.totalPrice}"></p>
+							</td>
+							<td>
+								<button class="btn btn-primary"
+									th:onclick="'showOrderDetails(' + ${order.oderId} + ')'">Xem
+									chi tiết</button>
+							</td>
+						</tr>
+
+					</tbody>
+				</table>
+				<div class="col-12">
+					<div class="pagination d-flex justify-content-center mt-5">
+						<!-- Nút quay về trang trước -->
+						<span th:if="${currentPage > 1}" class="page-item"> <a
+							th:href="@{/OderList(pageNo=${currentPage - 1})}" class="rounded"
+							th:classappend="${currentPage == 1} ? 'disabled' : ''">&laquo;</a>
+						</span>
+
+						<!-- Các số trang -->
+						<span th:each="i : ${#numbers.sequence(1, totalPage)}"
+							th:classappend="${currentPage == i ? 'active' : ''}"
+							class="page-item"> <a class="page-link"
+							th:href="@{/OderList(pageNo=${i})}" th:text="${i}"></a>
+						</span>
+
+						<!-- Nút đi đến trang kế tiếp -->
+						<span th:if="${currentPage < totalPage}" class="page-item">
+							<a th:href="@{/OderList(pageNo=${currentPage + 1})}"
+							class="rounded">&raquo;</a>
+						</span>
+					</div>
+				</div>
+			</div>
+			<!-- Tab ảo để hiển thị sản phẩm trong đơn hàng -->
+			<div id="orderDetailsTab" class="mt-5 d-none">
+				<h4>
+					Chi tiết đơn hàng: <span id="selectedOrderId"></span>
+				</h4>
+				<table class="table table-bordered">
+					<thead>
+						<tr>
+							<th>Tên sản phẩm</th>
+							<th>Số lượng</th>
+							<th>Giá</th>
+							<th>Tổng tiền</th>
+						</tr>
+					</thead>
+					<tbody id="orderDetailsBody">
+						<!-- Dữ liệu sẽ được điền bằng JavaScript -->
+					</tbody>
+				</table>
+				<button class="btn btn-secondary" onclick="hideOrderDetails()">Đóng</button>
+			</div>
+		</div>
+
+		<script>
+
+        // Hiển thị chi tiết đơn hàng
+       function showOrderDetails(oderId) {
+       const orderDetailsTab = document.getElementById("orderDetailsTab");
+       const orderDetailsBody = document.getElementById("orderDetailsBody");
+       const selectedOrderId = document.getElementById("selectedOrderId");
+
+    // Hiển thị ID của đơn hàng
+    selectedOrderId.textContent = oderId;
+
+    // Gọi API để lấy chi tiết đơn hàng
+    fetch(`/${oderId}/details`)
+        .then(response => response.json())
+        .then(orderDetails => {
+            // Kiểm tra xem dữ liệu trả về có phải là mảng không
+            if (Array.isArray(orderDetails)) {
+                orderDetailsBody.innerHTML = ""; // Reset bảng trước khi thêm dữ liệu
+                orderDetails.forEach(item => {
+                    const row = `
+                        <tr>  	  
+                            <td>${item.productName}</td>
+                            <td>${item.quantity}</td>
+                            <td>${item.price} VND</td>
+                            <td>${(item.quantity * item.price).toLocaleString()} VND</td>
+                        </tr>
+                    `;
+                    orderDetailsBody.innerHTML += row;
+                });
+                orderDetailsTab.classList.remove("d-none"); // Hiển thị tab chi tiết đơn hàng
+            } else {
+                console.error("API trả về dữ liệu không phải mảng", orderDetails);
+                alert("Lỗi: Dữ liệu chi tiết đơn hàng không hợp lệ.");
+            }
+        })
+        .catch(error => {
+            console.error("Error fetching order details:", error);
+            alert("Lỗi: Không thể tải chi tiết đơn hàng.");
+        });
+}
+
+function hideOrderDetails() {
+    const orderDetailsTab = document.getElementById("orderDetailsTab");
+    orderDetailsTab.classList.add("d-none"); // Ẩn tab chi tiết khi đóng
+}
+    </script>
+
+	</div>
+</div>
+
+<!-- Cart Page End -->

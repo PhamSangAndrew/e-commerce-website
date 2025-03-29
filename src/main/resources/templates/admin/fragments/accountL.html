@@ -1,0 +1,74 @@
+<div th:fragment="accountL">
+	<div class="product-status mg-b-30">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+					<div class="product-status-wrap">
+						<h4>Account List</h4>
+						<div class="add-product">
+							<a href="add-product">Add Product</a>
+						</div>
+						<table>
+							<tr>
+								<th>ID</th>
+								<th>UserName</th>
+								<th>Password</th>
+								<th>Power</th>
+								<th>FullName</th>
+								<th>Phone</th>
+								<th>Setting</th>
+							</tr>
+							<tr th:each="acc : ${accountL}">
+								<td th:text="${acc.AccountId}"></td>
+								<td th:text="${acc.UserName}"></td>
+								<td th:text="${acc.Password}"></td>
+								<td th:text="${acc.Role}"></td>
+								<td th:text="${acc.FullName}"></td>							
+								<td th:text="${acc.Phone}"></td>
+
+								   <td><a
+									th:href="@{/admin/account-edit/{id}(id=${acc.AccountId})}">
+										<button data-toggle="tooltip" title="Edit"
+											class="pd-setting-ed">
+											<i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+										</button>
+								</a><!-- <a
+									th:href="@{/admin/product-delete/{id}(id=${fruits.FruitId})}">
+										<button data-toggle="tooltip" title="Trash"
+											class="pd-setting-ed">
+											<i class="fa fa-trash-o" aria-hidden="true"></i>
+										</button>
+								</a>
+								--></td>
+								
+							</tr>
+						</table>
+						<!--  <div class="custom-pagination">
+							<ul class="pagination">
+								<li th:if="${currentPage > 1}" class="page-item"><a
+									class="page-link"
+									th:href="@{/admin/productlist(pageNo=${currentPage - 1})}">Previous</a>
+								</li>
+
+								<li th:each="i : ${#numbers.sequence(1, totalPage)}"
+									th:classappend="${currentPage == i ? 'active' : ''}"
+									class="page-item"><a class="page-link"
+									th:href="@{/admin/productlist(pageNo=${i})}" th:text="${i}"></a>
+
+								</li>
+								</li>
+
+								<li th:if="${currentPage < totalPage}" class="page-item"><a
+									class="page-link"
+									th:href="@{/admin/productlist(pageNo=${currentPage + 1})}">Next</a>
+								</li>
+							</ul>
+						</div>
+						-->
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+	</div>

@@ -1,0 +1,85 @@
+<div th:fragment="productL">
+	<div class="product-status mg-b-30">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+					<div class="product-status-wrap">
+						
+						<div class="breadcome-heading">
+							<form role="search" class="" action="/admin/productlist">
+								<input type="text" name="keyword" placeholder="Search..." class="form-control" th:value = "${keyword}">
+								<a href=""><i class="fa fa-search"></i></a>
+							</form>
+						</div>
+						<div class="add-product">
+							<a href="add-product">Add Product</a>
+						</div>
+						<table>
+							<tr>
+								<th>Image</th>
+								<th>Name</th>
+								<th>Status</th>
+								<th>Price</th>
+								<th>Sale Price</th>
+								<th>Dateadded</th>
+								<th>Quantity</th>
+								<th>Category</th>
+								<th>Setting</th>
+							</tr>
+							<tr th:each="fruits : ${fruits}">
+								<td><img th:src="@{'/imgupp/' + ${fruits.Image}}" />
+									</p></td>
+								<td th:text="${fruits.FruitName}"></td>
+								<td th:if="${fruits.FruitStatus}"><span
+									class="label label-success">active</span></td>
+								<td th:if="${!fruits.FruitStatus}"><span
+									class="label label-danger">hiden</span></td>
+								<td th:text="${fruits.Price}"></td>
+								<td th:text="${fruits.SalePrice}"></td>
+								<td th:text="${fruits.Dateadded}"></td>
+								<td th:text="${fruits.Quantity}"></td>
+								<td th:text="${fruits.category.CategoryName}"></td>
+
+								<td><a
+									th:href="@{/admin/productedit/{id}(id=${fruits.FruitId})}">
+										<button data-toggle="tooltip" title="Edit"
+											class="pd-setting-ed">
+											<i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+										</button>
+								</a> <a
+									th:href="@{/admin/product-delete/{id}(id=${fruits.FruitId})}">
+										<button data-toggle="tooltip" title="Trash"
+											class="pd-setting-ed">
+											<i class="fa fa-trash-o" aria-hidden="true"></i>
+										</button>
+								</a></td>
+							</tr>
+						</table>
+						<div class="custom-pagination">
+							<ul class="pagination">
+								<li th:if="${currentPage > 1}" class="page-item"><a
+									class="page-link"
+									th:href="@{/admin/productlist(pageNo=${currentPage - 1})}">Previous</a>
+								</li>
+
+								<li th:each="i : ${#numbers.sequence(1, totalPage)}"
+									th:classappend="${currentPage == i ? 'active' : ''}"
+									class="page-item"><a class="page-link"
+									th:href="@{/admin/productlist(pageNo=${i})}" th:text="${i}"></a>
+
+								</li>
+								</li>
+
+								<li th:if="${currentPage < totalPage}" class="page-item"><a
+									class="page-link"
+									th:href="@{/admin/productlist(pageNo=${currentPage + 1})}">Next</a>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+	</div>
