@@ -23,6 +23,8 @@
 							<th scope="col">Quantity</th>
 							<th scope="col">Price</th>
 							<th scope="col"></th>
+							<th scope="col"></th>
+							<th scope="col">Status</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -44,6 +46,17 @@
 								<button class="btn btn-primary"
 									th:onclick="'showOrderDetails(' + ${order.oderId} + ')'">Xem
 									chi tiết</button>
+							</td>
+							<td>
+								<form
+									th:action="@{/OderList/cancelOder/{orderId}(orderId=${order.oderId})}"
+									method="post"
+									onsubmit="return confirm('Bạn có chắc muốn huỷ đơn này?');">
+									<button type="submit" class="btn btn-danger">Huỷ đơn</button>
+								</form>
+							</td>
+							<td>
+								<p class="mb-0 mt-4" th:text="${order.Status}"></p>
 							</td>
 						</tr>
 

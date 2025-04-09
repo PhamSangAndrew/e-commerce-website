@@ -97,7 +97,8 @@ public class OderServiceImp implements OderService {
 	            Date OderDate = (Date) result[1];  
 	            int TotalQuantity = (int) result[2];
 	            Double TotalPrice = (Double) result[3];
-	            return new OderSummaryDTO(OderId, OderDate, TotalQuantity, TotalPrice);
+	            String Status = (String) result[4];
+	            return new OderSummaryDTO(OderId, OderDate, TotalQuantity, TotalPrice,Status);
 	        })
 	        .toList();
 
@@ -176,6 +177,22 @@ public class OderServiceImp implements OderService {
 	public long count() {
 		// TODO Auto-generated method stub
 		return oderReposistory.count();
+	}
+
+	@Override
+	public boolean cancelOrder(int orderId) {
+		// TODO Auto-generated method stub
+		 Optional<Oder> optionalOrder = oderReposistory.findById(orderId);
+		    if (optionalOrder.isPresent()) {
+		        Oder order = optionalOrder.get();
+		        // Chỉ huỷ khi đơn hàng có trạng thái "PENDING"
+		        if (order.getStatus() == Oder.Status.PENDING) {
+		            order.setStatus(Oder.Status.CANCELLED); // Đặt trạng thái huỷ
+		            oderReposistory.save(order); // Lưu lại đơn hàng
+		            return true;
+		        }
+		    }
+		    return false;
 	}
 
 	

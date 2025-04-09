@@ -24,6 +24,7 @@ public interface OderService {
 	void updateOderStatus( int orderId, Status status);
 	List<OrderDetailDTO> findOrderDetailsByOrderId(@Param("oderId") int oderId);
 	long count();
+	public boolean cancelOrder(int orderId);
 	
 	
 

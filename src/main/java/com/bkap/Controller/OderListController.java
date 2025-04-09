@@ -110,4 +110,15 @@ public class OderListController {
 	    System.out.println("Returning order details: " + orderDetails);
 	    return ResponseEntity.ok(orderDetails);
 	}
+	@PostMapping("/OderList/cancelOder/{orderId}")
+	public String cancelOrder(@PathVariable("orderId") int orderId, RedirectAttributes redirectAttributes) {
+	    // Gọi service để huỷ đơn hàng
+	    Boolean result = oderService.cancelOrder(orderId);
+	    if (result) {
+	        redirectAttributes.addFlashAttribute("success", "Huỷ đơn hàng thành công!");
+	    } else {
+	        redirectAttributes.addFlashAttribute("error", "Không thể huỷ đơn hàng này.");
+	    }
+	    return "redirect:/OderList"; // Chuyển hướng về trang danh sách đơn hàng
+	}
 }

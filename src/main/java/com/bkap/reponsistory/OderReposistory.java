@@ -20,11 +20,12 @@ import com.bkap.entities.Oder.Status;
 @Repository
 public interface OderReposistory extends JpaRepository<Oder, Integer> {
 
-	@Query(value = "SELECT o.OderId, o.OderDate, SUM(od.Quantity), CAST(SUM(od.Quantity * od.Price) AS FLOAT) AS TotalPrice "
+	@Query(value = "SELECT o.OderId, o.OderDate, SUM(od.Quantity), CAST(SUM(od.Quantity * od.Price) AS FLOAT) AS TotalPrice, o.Status "
 			+ "FROM Oder o JOIN OderDetail od " 
 			+ "ON o.OderId = od.OrderId " 
 			+ "WHERE o.AccountId = :accountId "
-			+ "GROUP BY o.OderId, o.OderDate", nativeQuery = true)
+			+ "GROUP BY o.OderId, o.OderDate, o.Status "
+			+ "ORDER BY o.OderDate DESC", nativeQuery = true)
 	Page<Object[]> findOrdersByAccountId(@Param("accountId") int accountId, Pageable pageable);
 	
 
