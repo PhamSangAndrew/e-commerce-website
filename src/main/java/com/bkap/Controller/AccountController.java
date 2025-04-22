@@ -9,6 +9,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,6 +23,7 @@ import com.bkap.service.AccountService;
 
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 
 @Controller
 public class AccountController {
@@ -39,7 +42,13 @@ public class AccountController {
 	}
 	
 	@RequestMapping(value = "/register/submit", method = RequestMethod.POST)
-	public String addRegister(Model model, RedirectAttributes redirectAttributes, @ModelAttribute("account") Account account) {
+	public String addRegister(Model model, RedirectAttributes redirectAttributes,
+			@Valid @ModelAttribute("account") Account account, BindingResult result) {
+		 if (result.hasErrors()) {
+		        // Nếu có lỗi validate, trả về trang đăng ký và hiển thị thông báo lỗi
+		        model.addAttribute("msg", "Registration failed. Please check your input.");
+		        return "register";
+		    }
 	    if (this.accountService.insert(account)) {
 	        redirectAttributes.addFlashAttribute("msg", "Registration successful");
 	        return "redirect:/login";

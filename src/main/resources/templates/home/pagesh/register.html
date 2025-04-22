@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-<title>Login 10</title>
+<title></title>
 <meta charset="utf-8">
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -32,12 +32,19 @@
 							<div class="form-group">
 								<input type="text" class="form-control" placeholder="Username" th:field="*{UserName}"
 									required>
+									 <div th:if="${#fields.hasErrors('UserName')}" class="text-danger">
+            <span th:errors="*{UserName}"></span>
+        </div>
 							</div>
+							
 							<div class="form-group">
 								<input id="password-field" type="password" class="form-control"
 									placeholder="Password" th:field="*{Password}" required> <span
 									toggle="#password-field"
 									class="fa fa-fw fa-eye field-icon toggle-password"></span>
+									 <div th:if="${#fields.hasErrors('Password')}" class="text-danger">
+            <span th:errors="*{Password}"></span>
+        </div>
 							</div>
 							<div class="form-group">
 								<input type="text" class="form-control" placeholder="Fullname" th:field="*{FullName}"

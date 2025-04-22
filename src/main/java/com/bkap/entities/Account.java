@@ -1,11 +1,8 @@
 package com.bkap.entities;
 
-import java.util.Collection;
-import java.util.Collections;
 
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
+
+
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -13,6 +10,10 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.Email;
+
 
 @Entity
 @Table(name="Account")
@@ -22,20 +23,32 @@ public class Account {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int AccountId;
 
+	@NotBlank(message = "Tên không được để trống")
 	@Column(name= "UserName")
 	private String UserName;
+	
 	@Column(name="Password")
+	@Size(min = 6, message = "Mật khẩu ít nhất 6 ký tự")
 	private String Password;
+	
 	@Column(name ="FullName")
+	@NotBlank(message = "Tên không được để trống")
 	private String FullName;
+	
 	@Column(name ="Image")
 	private String Image;
+	
 	@Column(name = "Email")
+	@Email(message = "Email không hợp lệ")
 	private String Email;
+	
 	@Column(name = "Address")
 	private String Address;
+	
 	@Column(name ="Phone")
+	@Size(max = 10, message = "Số điện thoại không xác định")
 	private String Phone;
+	
 	@Column(name = "IsAdmin")
 	private Boolean IsAdmin = true;
 	@Column(name = "Active")
