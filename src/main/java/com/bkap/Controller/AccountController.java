@@ -34,6 +34,7 @@ public class AccountController {
 	public String loginHome() {
 		return "home/pagesh/loginh";
 	}
+	
 	@RequestMapping(value ="/register", method = RequestMethod.GET)
 	public String register(Model model) {
 		Account account = new Account();

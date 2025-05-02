@@ -58,6 +58,7 @@ public class SecurityConfigH {
         		successForwardUrl("/login/submit").permitAll()) 
                .logout(logout -> logout
             		   .logoutUrl("/logout")  // Cấu hình đường dẫn logout chính xác
+            		   .logoutSuccessUrl("/login")
             		    .invalidateHttpSession(true)  // Đảm bảo session được xóa khi logout
             		    .clearAuthentication(true)
                .permitAll());	

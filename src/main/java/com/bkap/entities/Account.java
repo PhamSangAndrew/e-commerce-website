@@ -55,12 +55,20 @@ public class Account {
 	private Boolean Active = true;
 	@Column(name="Role")
 	private String Role = "USER";
+	
+	
 	public Account() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	public Account(int accountId, String userName, String password, String fullName, String image, String email,
-			String address, String phone, Boolean isAdmin, Boolean active, String role) {
+
+
+	public Account(int accountId, @NotBlank(message = "Tên không được để trống") String userName,
+			@Size(min = 6, message = "Mật khẩu ít nhất 6 ký tự") String password,
+			@NotBlank(message = "Tên không được để trống") String fullName, String image,
+			@jakarta.validation.constraints.Email(message = "Email không hợp lệ") String email, String address,
+			@Size(max = 10, message = "Số điện thoại không xác định") String phone, Boolean isAdmin, Boolean active,
+			String role) {
 		super();
 		AccountId = accountId;
 		UserName = userName;
@@ -74,72 +82,118 @@ public class Account {
 		Active = active;
 		Role = role;
 	}
+
+
 	public int getAccountId() {
 		return AccountId;
 	}
+
+
 	public void setAccountId(int accountId) {
 		AccountId = accountId;
 	}
+
+
 	public String getUserName() {
 		return UserName;
 	}
+
+
 	public void setUserName(String userName) {
 		UserName = userName;
 	}
+
+
 	public String getPassword() {
 		return Password;
 	}
+
+
 	public void setPassword(String password) {
 		Password = password;
 	}
+
+
 	public String getFullName() {
 		return FullName;
 	}
+
+
 	public void setFullName(String fullName) {
 		FullName = fullName;
 	}
+
+
 	public String getImage() {
 		return Image;
 	}
+
+
 	public void setImage(String image) {
 		Image = image;
 	}
+
+
 	public String getEmail() {
 		return Email;
 	}
+
+
 	public void setEmail(String email) {
 		Email = email;
 	}
+
+
 	public String getAddress() {
 		return Address;
 	}
+
+
 	public void setAddress(String address) {
 		Address = address;
 	}
+
+
 	public String getPhone() {
 		return Phone;
 	}
+
+
 	public void setPhone(String phone) {
 		Phone = phone;
 	}
+
+
 	public Boolean getIsAdmin() {
-		return true;
+		return IsAdmin;
 	}
+
+
 	public void setIsAdmin(Boolean isAdmin) {
-		IsAdmin = true;
+		IsAdmin = isAdmin;
 	}
+
+
 	public Boolean getActive() {
-		return true;
+		return Active;
 	}
+
+
 	public void setActive(Boolean active) {
-		Active = true;
+		Active = active;
 	}
+
+
 	public String getRole() {
 		return Role;
 	}
+
+
 	public void setRole(String role) {
 		Role = role;
 	}
+	
+	
 	
 	
 	
